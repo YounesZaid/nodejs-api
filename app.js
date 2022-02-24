@@ -1,8 +1,9 @@
 const express = require("express");
+const morgan = require("morgan");
+const { getPosts } = require("./routes/post");
 
 const app = express();
-
-const { getPosts } = require("./routes/post");
+app.use(morgan("dev"));
 
 app.get("/", getPosts);
 
