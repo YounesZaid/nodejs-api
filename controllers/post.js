@@ -2,6 +2,7 @@ const Post = require("../models/post");
 
 exports.getPosts = (req, res) => {
   Post.find()
+    .select("_id title body")
     .then((posts) => res.send(posts))
     .catch((err) => {
       res.status(500).send({
@@ -29,6 +30,6 @@ exports.createPost = (req, res) => {
 
   // let the midleware validator check fields requirement (inside creation route controller)
   post.save().then((result) => {
-    res.status(200).json({ result });
+    res.json({ result });
   });
 };
