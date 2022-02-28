@@ -2,6 +2,8 @@ const express = require("express");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const expressValidator = require("express-validator");
 const postRoutes = require("./routes/post");
 
 const app = express();
@@ -16,6 +18,14 @@ mongoose.connection.on("err", (err) =>
 );
 
 // Middleware to view executed routes
+app.use(morgan("dev"));
+
+// Middleware to parse body requests
+app.use(bodyParser.json());
+
+// Middleware to handle errors validator
+app.use(expressValidator());
+
 app.use(morgan("dev"));
 
 /** Middleware route to handle all post requests get/post ... */
