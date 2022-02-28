@@ -12,7 +12,7 @@ exports.createPostValidator = (req, resp, next) => {
     max: 1000,
   });
   // check for all errors
-  const errors = req.validationErrors();
+  let errors = req.validationErrors();
   if (errors) {
     return resp.status(400).json({
       errors,

@@ -1,7 +1,13 @@
 const Post = require("../models/post");
 
 exports.getPosts = (req, res) => {
-  res.json();
+  Post.find()
+    .then((posts) => res.send(posts))
+    .catch((err) => {
+      res.status(500).send({
+        error: err || "Error while retrieving posts",
+      });
+    });
 };
 exports.createPost = (req, res) => {
   const post = new Post(req.body);
