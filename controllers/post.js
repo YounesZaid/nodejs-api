@@ -12,6 +12,9 @@ exports.getPosts = (req, res) => {
 exports.createPost = (req, res) => {
   const post = new Post(req.body);
   console.log("CREATING NEW POST ", post);
+
+  // handling errors inside while saving data
+  /* 
   post.save((err, result) => {
     if (err) {
       return res.status(400).json({
@@ -21,5 +24,11 @@ exports.createPost = (req, res) => {
     res.status(200).json({
       post: result,
     });
+  });
+  */
+
+  // let the midleware validator check fields requirement (inside creation route controller)
+  post.save().then((result) => {
+    res.status(200).json({ result });
   });
 };
