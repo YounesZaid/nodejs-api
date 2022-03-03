@@ -10,11 +10,11 @@ const { createPostValidator } = require("../validators");
 
 const router = express.Router();
 
-/** POST API */
+/** POST CRUD API */
 router.post("/post", createPostValidator, createPost);
-router.get("/getAllPosts", getPosts);
-router.get("/getPost/:id", getPost);
-router.patch("/updatePost/:id", updatePost);
-router.delete("/deletePost/:id", deletePost);
+router.get("/posts", getPosts);
+router.get("/post/:id", getPost);
+router.patch("/post/update/:id", updatePost);
+router.delete("/post/delete/:id", deletePost);
 
 module.exports = router;
