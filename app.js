@@ -29,7 +29,7 @@ app.use(expressValidator());
 app.use(morgan("dev"));
 
 /** Middleware route to handle all post requests get/post ... */
-app.use("/", postRoutes);
+app.use("/api", postRoutes);
 
 const port = 8080;
 app.listen(port, () => {

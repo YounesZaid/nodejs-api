@@ -33,3 +33,15 @@ exports.createPost = (req, res) => {
     res.json({ result });
   });
 };
+exports.getPost = (req, res) => {
+  console.log("Get Post by id", req.params.id);
+  res.send(req.params.id);
+};
+exports.updatePost = (req, res) => {
+  console.log("Update Post", req);
+  res.send("Update Post by Id");
+};
+exports.deletePost = (req, res) => {
+  console.log("delete Post by id", req);
+  res.send("delete Post by Id");
+};
