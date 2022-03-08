@@ -32,6 +32,20 @@ app.use(expressValidator());
 
 app.use(morgan("dev"));
 
+// Middleware CORS
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+  );
+  next();
+});
+
 /** Middleware route to handle all post crud requests get/post ... */
 app.use("/api", postRoutes);
 app.use("/api", productRoutes);

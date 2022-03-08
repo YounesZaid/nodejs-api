@@ -24,3 +24,8 @@ exports.getProducts = (req, res) => {
 
   res.status(200).json(stuff);
 };
+
+exports.createProduct = (req, res) => {
+  console.log(req.body);
+  res.json({ message: "Product created" });
+};
