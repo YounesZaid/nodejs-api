@@ -7,3 +7,5 @@ const productSchema = new mongoose.Schema({
   price: { type: Number },
   userId: { type: String },
 });
+
+module.exports = mongoose.model("Product", productSchema);
