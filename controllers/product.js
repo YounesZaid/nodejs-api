@@ -1,31 +1,27 @@
 const Product = require("../models/product");
 
 exports.getProducts = (req, res) => {
-  const stuff = [
-    {
-      _id: "oeihfzeoi",
-      title: "Mon premier objet",
-      description: "Les infos de mon premier objet",
-      imageUrl:
-        "https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg",
-      price: 4900,
-      userId: "qsomihvqios",
-    },
-    {
-      _id: "oeihfzeomoihi",
-      title: "Mon deuxième objet",
-      description: "Les infos de mon deuxième objet",
-      imageUrl:
-        "https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg",
-      price: 2900,
-      userId: "qsomihvqios",
-    },
-  ];
+  Product.find()
+    .then((products) => res.status(200).json(products))
+    .catch((err) => res.status(400).json({ err }));
+};
 
-  res.status(200).json(stuff);
+exports.getProduct = (req, res) => {
+  const productId = req.params.id;
+  Product.findOne({ _id: productId })
+    .then((product) => res.status(200).json(product))
+    .catch((err) => res.status(404).json({ err }));
 };
 
 exports.createProduct = (req, res) => {
-  console.log(req.body);
-  res.json({ message: "Product created" });
+  // delete default _id created in the front-end client
+  delete req.body._id;
+  const product = new Product({ ...req.body });
+
+  product
+    .save()
+    .then((data) =>
+      res.status(201).json({ data, message: "product successfully created !" })
+    )
+    .catch((err) => res.status(400).json({ err }));
 };
