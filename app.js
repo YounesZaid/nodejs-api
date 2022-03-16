@@ -9,17 +9,19 @@ const expressValidator = require("express-validator");
 const postRoutes = require("./routes/post");
 // PRODUCT Routes
 const productRoutes = require("./routes/product");
+// Items Routes QUIZ
+const itemsRoutes = require("./routes/item");
 
 const app = express();
 dotenv.config();
 
 // db config
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("db Connected ... "));
-mongoose.connection.on("err", (err) =>
-  console.log(`db Connection failed: ${err}`)
-);
+// mongoose
+//   .connect(process.env.MONGO_URI)
+//   .then(() => console.log("db Connected ... "));
+// mongoose.connection.on("err", (err) =>
+//   console.log(`db Connection failed: ${err}`)
+// );
 
 // Middleware to view executed routes
 app.use(morgan("dev"));
@@ -47,8 +49,9 @@ app.use((req, res, next) => {
 });
 
 /** Middleware route to handle all post crud requests get/post ... */
-app.use("/api", postRoutes);
-app.use("/api", productRoutes);
+app.use("/api/post", postRoutes);
+app.use("/api/product", productRoutes);
+app.use("/api/item", itemsRoutes);
 
 const port = 3000;
 app.listen(port, () => {

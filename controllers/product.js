@@ -25,3 +25,20 @@ exports.createProduct = (req, res) => {
     )
     .catch((err) => res.status(400).json({ err }));
 };
+
+exports.updateProduct = (req, res, next) => {
+  Product.findOneAndUpdate(
+    { _id: req.params.id },
+    { ...req.body, _id: req.params.id }
+  )
+    .then((response) =>
+      res.json({ message: "updated successfully", data: response })
+    )
+    .catch((err) => res.status(400).json(err));
+};
+
+exports.deleteProduct = (req, res) => {
+  Product.deleteOne({ _id: req.params.id })
+    .then((data) => res.json({ data, message: "deleted successfully" }))
+    .catch((error) => res.json({ error }));
+};
