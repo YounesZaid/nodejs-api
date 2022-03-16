@@ -11,6 +11,8 @@ const postRoutes = require("./routes/post");
 const productRoutes = require("./routes/product");
 // Items Routes QUIZ
 const itemsRoutes = require("./routes/item");
+// user auth routes
+const userRoutes = require("./routes/user");
 
 const app = express();
 dotenv.config();
@@ -52,6 +54,7 @@ app.use((req, res, next) => {
 app.use("/api/post", postRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/item", itemsRoutes);
+app.use("/api/auth", userRoutes);
 
 const port = 3000;
 app.listen(port, () => {
