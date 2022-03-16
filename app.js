@@ -49,9 +49,9 @@ app.use((req, res, next) => {
 });
 
 /** Middleware route to handle all post crud requests get/post ... */
-app.use("/api", postRoutes);
-app.use("/api", productRoutes);
-app.use("/api", itemsRoutes);
+app.use("/api/post", postRoutes);
+app.use("/api/product", productRoutes);
+app.use("/api/item", itemsRoutes);
 
 const port = 3000;
 app.listen(port, () => {
