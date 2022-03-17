@@ -1,6 +1,7 @@
 const Product = require("../models/product");
 
 exports.getProducts = (req, res) => {
+  debugger;
   Product.find()
     .then((products) => res.status(200).json(products))
     .catch((err) => res.status(400).json({ err }));

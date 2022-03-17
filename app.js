@@ -51,8 +51,8 @@ app.use((req, res, next) => {
 });
 
 /** Middleware route to handle all post crud requests get/post ... */
+app.use("/api", productRoutes);
 app.use("/api/post", postRoutes);
-app.use("/api/product", productRoutes);
 app.use("/api/item", itemsRoutes);
 app.use("/api/auth", userRoutes);
 
