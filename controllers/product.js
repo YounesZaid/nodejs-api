@@ -15,9 +15,16 @@ exports.getProduct = (req, res) => {
 };
 
 exports.createProduct = (req, res) => {
+  console.log("PRODUCT ==> ", req.body.thing);
+  const productObject = JSON.parse(req.body.thing);
   // delete default _id created in the front-end client
-  delete req.body._id;
-  const product = new Product({ ...req.body });
+  delete productObject._id;
+  const product = new Product({
+    ...productObject,
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`,
+  });
 
   product
     .save()
