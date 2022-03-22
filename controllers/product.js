@@ -1,6 +1,7 @@
 const Product = require("../models/product");
 
 exports.getProducts = (req, res) => {
+  debugger;
   Product.find()
     .then((products) => res.status(200).json(products))
     .catch((err) => res.status(400).json({ err }));
@@ -38,7 +39,19 @@ exports.updateProduct = (req, res, next) => {
 };
 
 exports.deleteProduct = (req, res) => {
-  Product.deleteOne({ _id: req.params.id })
-    .then((data) => res.json({ data, message: "deleted successfully" }))
-    .catch((error) => res.json({ error }));
+  Product.findOne({ _id: req.params.id }).then((product) => {
+    if (!product) {
+      return res.status(404).json({
+        error: new Error("No product found"),
+      });
+    }
+    if (product.userId !== req.auth.userId) {
+      return res.status(401).json({
+        error: new Error("Unauthorized"),
+      });
+    }
+    Product.deleteOne({ _id: req.params.id })
+      .then((data) => res.json({ data, message: "deleted successfully" }))
+      .catch((error) => res.json({ error }));
+  });
 };
