@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const fs = require("fs");
 
 exports.getProducts = (req, res) => {
   debugger;
@@ -15,7 +16,6 @@ exports.getProduct = (req, res) => {
 };
 
 exports.createProduct = (req, res) => {
-  console.log("PRODUCT ==> ", req.body.thing);
   const productObject = JSON.parse(req.body.thing);
   // delete default _id created in the front-end client
   delete productObject._id;
@@ -35,9 +35,17 @@ exports.createProduct = (req, res) => {
 };
 
 exports.updateProduct = (req, res, next) => {
+  const productObject = req.file
+    ? {
+        ...JSON.parse(req.body.thing),
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
+      }
+    : { ...req.body };
   Product.findOneAndUpdate(
     { _id: req.params.id },
-    { ...req.body, _id: req.params.id }
+    { ...productObject, _id: req.params.id }
   )
     .then((response) =>
       res.json({ message: "updated successfully", data: response })
@@ -46,19 +54,26 @@ exports.updateProduct = (req, res, next) => {
 };
 
 exports.deleteProduct = (req, res) => {
-  Product.findOne({ _id: req.params.id }).then((product) => {
-    if (!product) {
-      return res.status(404).json({
-        error: new Error("No product found"),
+  Product.findOne({ _id: req.params.id })
+    .then((product) => {
+      if (!product) {
+        return res.status(404).json({
+          error: new Error("No product found"),
+        });
+      }
+      if (product.userId !== req.auth.userId) {
+        return res.status(401).json({
+          error: new Error("Unauthorized"),
+        });
+      }
+      const filename = product.imageUrl.split("/images/")[1];
+      fs.unlink(`images/${filename}`, () => {
+        Product.deleteOne({ _id: req.params.id })
+          .then((data) => res.json({ data, message: "deleted successfully" }))
+          .catch((error) => res.json({ error }));
       });
-    }
-    if (product.userId !== req.auth.userId) {
-      return res.status(401).json({
-        error: new Error("Unauthorized"),
-      });
-    }
-    Product.deleteOne({ _id: req.params.id })
-      .then((data) => res.json({ data, message: "deleted successfully" }))
-      .catch((error) => res.json({ error }));
-  });
+    })
+    .catch((error) => {
+      res.json({ error });
+    });
 };
