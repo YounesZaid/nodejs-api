@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const expressValidator = require("express-validator");
+const path = require("path");
 
 // POST Routes
 const postRoutes = require("./routes/post");
@@ -50,6 +51,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/images", express.static(path.join(__dirname, "images")));
 /** Middleware route to handle all post crud requests get/post ... */
 app.use("/api", productRoutes);
 app.use("/api/post", postRoutes);
