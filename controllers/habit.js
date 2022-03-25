@@ -2,7 +2,7 @@ const Habit = require("../models/habit");
 
 exports.getHabits = (req, res) => {
   Habit.find()
-    .then((habits) => res.status(200).json({ habits }))
+    .then((habits) => res.status(200).json(habits))
     .catch((err) => res.status(400).json({ err }));
 };
 
