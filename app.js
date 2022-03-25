@@ -14,6 +14,8 @@ const productRoutes = require("./routes/product");
 const itemsRoutes = require("./routes/item");
 // user auth routes
 const userRoutes = require("./routes/user");
+// Habit  routes
+const habitRoutes = require("./routes/habit");
 
 const app = express();
 dotenv.config();
@@ -54,6 +56,7 @@ app.use((req, res, next) => {
 app.use("/images", express.static(path.join(__dirname, "images")));
 /** Middleware route to handle all post crud requests get/post ... */
 app.use("/api", productRoutes);
+app.use("/api", habitRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/item", itemsRoutes);
 app.use("/api/auth", userRoutes);
